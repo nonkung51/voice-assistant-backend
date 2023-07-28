@@ -34,4 +34,4 @@ def get_TTS(text="Hello My name is Harry"):
             buffer.write(chunk)
     buffer.seek(0)
 
-    return iter(buffer.read, b"")
+    return buffer.read()

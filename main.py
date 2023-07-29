@@ -2,6 +2,7 @@
 
 from fastapi import FastAPI
 from fastapi.responses import Response
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict
 from pydantic import BaseModel
 
@@ -19,6 +20,19 @@ class Conversation(BaseModel):
 class Payload(BaseModel):
     conversation: List[Conversation]
     scenario: str
+
+origins = [
+    "http://localhost:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=['X-Message','X-Conversation-Summary']
+)
 
 @app.post("/conversation/")
 async def process_conversation(payload: Payload):
@@ -48,5 +62,5 @@ async def process_conversation(payload: Payload):
     audio_data = get_TTS(message)
 
     # Return response
-    headers={"message": message, "conversation-summary": summarizer_result.replace('\n', '')}
+    headers={"X-Message": message, "X-Conversation-Summary": summarizer_result.replace('\n', '')}
     return Response(content=audio_data, headers=headers, media_type="audio/mpeg")

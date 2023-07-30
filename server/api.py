@@ -20,7 +20,8 @@ class Payload(BaseModel):
     scenario: str
 
 origins = [
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "https://hey-doctor.vercel.app/"
 ]
 
 app.add_middleware(

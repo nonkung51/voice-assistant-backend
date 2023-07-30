@@ -19,7 +19,11 @@ class Payload(BaseModel):
     conversation: List[Conversation]
     scenario: str
 
-origins = ["*"]
+origins = [
+    "http://localhost:5173",
+    "http://hey-doctor.vercel.app"
+    "https://hey-doctor.vercel.app"
+]
 
 app.add_middleware(
     CORSMiddleware,
